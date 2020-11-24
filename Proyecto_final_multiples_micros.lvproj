@@ -18,6 +18,8 @@
 			<Item Name="NXP.lvclass" Type="LVClass" URL="../Clases Hijos/NXP/NXP.lvclass"/>
 			<Item Name="Simulated uC.lvclass" Type="LVClass" URL="../Clases Hijos/Simulated/Simulated uC.lvclass"/>
 		</Item>
+		<Item Name="Marca.ctl" Type="VI" URL="../Clase Padre/Marca.ctl"/>
+		<Item Name="Comando.ctl" Type="VI" URL="../Clase Padre/Comando.ctl"/>
 		<Item Name="Dependencies" Type="Dependencies"/>
 		<Item Name="Build Specifications" Type="Build"/>
 	</Item>
