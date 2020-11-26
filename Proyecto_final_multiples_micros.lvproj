@@ -17,13 +17,16 @@
 		<Item Name="Clases Hijo" Type="Folder">
 			<Item Name="NXP.lvclass" Type="LVClass" URL="../Clases Hijos/NXP/NXP.lvclass"/>
 			<Item Name="Simulated uC.lvclass" Type="LVClass" URL="../Clases Hijos/Simulated/Simulated uC.lvclass"/>
+			<Item Name="Cypress.lvclass" Type="LVClass" URL="../Clases Hijos/Cypress/Cypress.lvclass"/>
 		</Item>
 		<Item Name="Multiple_uC Module" Type="Folder">
 			<Item Name="Multiple_uC.lvlib" Type="Library" URL="../Libraries/Multiple_uC/Multiple_uC.lvlib"/>
 		</Item>
+		<Item Name="Testers" Type="Folder">
+			<Item Name="Test Multiple_uC API.vi" Type="VI" URL="../Libraries/Multiple_uC/Test Multiple_uC API.vi"/>
+		</Item>
 		<Item Name="Marca.ctl" Type="VI" URL="../Clase Padre/Marca.ctl"/>
 		<Item Name="Comando.ctl" Type="VI" URL="../Clase Padre/Comando.ctl"/>
-		<Item Name="Test Multiple_uC API.vi" Type="VI" URL="../Libraries/Multiple_uC/Test Multiple_uC API.vi"/>
 		<Item Name="Dependencies" Type="Dependencies">
 			<Item Name="vi.lib" Type="Folder">
 				<Item Name="Stall Data Flow.vim" Type="VI" URL="/&lt;vilib&gt;/Utility/Stall Data Flow.vim"/>
