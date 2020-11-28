@@ -27,6 +27,7 @@
 		</Item>
 		<Item Name="Marca.ctl" Type="VI" URL="../Clase Padre/Marca.ctl"/>
 		<Item Name="Comando.ctl" Type="VI" URL="../Clase Padre/Comando.ctl"/>
+		<Item Name="FGV Variant DB.vi" Type="VI" URL="../Clases Hijos/Simulated/FGV Variant DB.vi"/>
 		<Item Name="Dependencies" Type="Dependencies">
 			<Item Name="vi.lib" Type="Folder">
 				<Item Name="Stall Data Flow.vim" Type="VI" URL="/&lt;vilib&gt;/Utility/Stall Data Flow.vim"/>
