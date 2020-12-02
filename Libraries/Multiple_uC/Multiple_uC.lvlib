@@ -22,6 +22,8 @@
 				<Item Name="ADC´s View (Reply Payload)--cluster.ctl" Type="VI" URL="../ADC´s View (Reply Payload)--cluster.ctl"/>
 				<Item Name="Write_1BIT Argument--cluster.ctl" Type="VI" URL="../Write_1BIT Argument--cluster.ctl"/>
 				<Item Name="Write_1BIT (Reply Payload)--cluster.ctl" Type="VI" URL="../Write_1BIT (Reply Payload)--cluster.ctl"/>
+				<Item Name="Set 8 bits Argument--cluster.ctl" Type="VI" URL="../Set 8 bits Argument--cluster.ctl"/>
+				<Item Name="Set 8 bits (Reply Payload)--cluster.ctl" Type="VI" URL="../Set 8 bits (Reply Payload)--cluster.ctl"/>
 			</Item>
 			<Item Name="Broadcast" Type="Folder">
 				<Item Name="Did Init Argument--cluster.ctl" Type="VI" URL="../Did Init Argument--cluster.ctl"/>
@@ -36,6 +38,7 @@
 			<Item Name="Show Diagram.vi" Type="VI" URL="../Show Diagram.vi"/>
 			<Item Name="ADC´s View.vi" Type="VI" URL="../ADC´s View.vi"/>
 			<Item Name="Write_1BIT.vi" Type="VI" URL="../Write_1BIT.vi"/>
+			<Item Name="Set 8 bits.vi" Type="VI" URL="../Set 8 bits.vi"/>
 		</Item>
 		<Item Name="Start Module.vi" Type="VI" URL="../Start Module.vi"/>
 		<Item Name="Synchronize Module Events.vi" Type="VI" URL="../Synchronize Module Events.vi"/>
