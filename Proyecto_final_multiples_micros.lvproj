@@ -31,6 +31,11 @@
 		<Item Name="Marca.ctl" Type="VI" URL="../Clase Padre/Marca.ctl"/>
 		<Item Name="Comando.ctl" Type="VI" URL="../Clase Padre/Comando.ctl"/>
 		<Item Name="FGV DB Variant.vi" Type="VI" URL="../FGV DB Variant.vi"/>
+		<Item Name="Convertir_WResponse_toBool.vi" Type="VI" URL="../Convertir_WResponse_toBool.vi"/>
+		<Item Name="Convertir_WResponse8bits_of_string_ToBool.vi" Type="VI" URL="../Convertir_WResponse8bits_of_string_ToBool.vi"/>
+		<Item Name="Identificar_Switch_Presionado.vi" Type="VI" URL="../Identificar_Switch_Presionado.vi"/>
+		<Item Name="Identificar_todos_los_switches.vi" Type="VI" URL="../Identificar_todos_los_switches.vi"/>
+		<Item Name="Obtener_valor_ADC.vi" Type="VI" URL="../Obtener_valor_ADC.vi"/>
 		<Item Name="Dependencies" Type="Dependencies">
 			<Item Name="vi.lib" Type="Folder">
 				<Item Name="Stall Data Flow.vim" Type="VI" URL="/&lt;vilib&gt;/Utility/Stall Data Flow.vim"/>
