@@ -1,5 +1,8 @@
 ﻿<?xml version='1.0' encoding='UTF-8'?>
 <LVClass LVVersion="19008000">
+	<Property Name="NI.Lib.Description" Type="Str">This is the fathers class where the childs can inherit the actions of the father
+</Property>
+	<Property Name="NI.Lib.HelpPath" Type="Str"></Property>
 	<Property Name="NI.Lib.Icon" Type="Bin">'1#!!!!!!!)!"1!&amp;!!!-!%!!!@````]!!!!"!!%!!!)?!!!*Q(C=\&gt;4.&lt;3*"%-8RZZ50PJ,"CB4K\"MJE%+FQ(70J0"3)!63K"2)A24QP^OV'#&amp;Z7=GW\!04."_PJ[N`T,2'GM?4^+D4L?0ZH]@`DH?B_4(?2LM9`VNFD-Y@6_-8ZZXG^_PR,P%W=D8P&gt;=\&lt;_F@D(`Z`\Y`@/(1`\M@X(H^O&lt;N)PX\-0'A]C?N&amp;.4XJI,(5K]C)P]C)P]C)XO=F.&lt;H+4GTT*ETT*ETT*ETT)ATT)ATT)AXQW=J',8/31CM7,B9KC29(C:#AKXAJ0Y3E]B9?@+DS&amp;J`!5HM,$+3I]B;@Q&amp;*\#QT16HM*4?!J0Y;(5F.2MZ(A+$_6F0-:D0-:D0#QJYT%!MZAJ&lt;)L!E"EU8YT(?)S(LT)?YT%?YT%?BG5]RG-]RG-]4*F8R6-T'DE?SCDR**\%EXA3$[76?"*0YEE]C9@FF(A34Y*)&amp;ES+1V!S+4EB_:&amp;Y%A]@3DS**`%EHM4$U,R$/;`-U)R'DC@Q"*\!%XA#$S55?!*0Y!E]A9?S#DS"*`!%HM$$5AI]A3@Q"*"A5::85#S9'*Q5")'(V^QN-?_3JS2GEXLTKD?F?L/J.Z&amp;[=[BPOPJGKG_3_O+L,[L[9KEPAPL0K&gt;&amp;KD(I2^?2RII[](_B\_I[_J7`I;`K+PK1PRN200P&amp;Y0/JQ/'C`XWOXWWG\X7KTW7C^8GOV7GGZ8'KR7*Q@!\^JZQ@#4XAO`1D$,VX7Z2K^!.M?LX1!!!!!</Property>
 	<Property Name="NI.Lib.SourceVersion" Type="Int">419463168</Property>
 	<Property Name="NI.Lib.Version" Type="Str">1.0.0.2</Property>

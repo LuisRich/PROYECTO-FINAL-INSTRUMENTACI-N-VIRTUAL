@@ -1,5 +1,7 @@
 ﻿<?xml version='1.0' encoding='UTF-8'?>
 <Library LVVersion="19008000">
+	<Property Name="NI.Lib.Description" Type="Str">This clonable module of DQMH can evaluate 3 microcontroller at the same time. All the comands were generated with global commands and inheritance</Property>
+	<Property Name="NI.Lib.HelpPath" Type="Str"></Property>
 	<Property Name="NI.Lib.Icon" Type="Bin">'1#!!!!!!!)!"1!&amp;!!!-!%!!!@````]!!!!"!!%!!!)W!!!*Q(C=\&gt;7^41."%)&lt;BTYC!%%M5A.T#N/!#3&amp;Q"UL4A&amp;'@/)2H*&amp;4AC&gt;QP4AFNQ#]O\S`!H!5Y!)=1?;Z_``8O]&gt;T[E5=[E5\6D:@.J?7JP6@N,?YF@WFO&gt;DP:7H6_0&lt;ZMX\:`/`^\YJX'N&lt;&gt;Z:`W0`E;,`]F`_&gt;LEZ_C0Y^N`"20V"2%VK5*VK[MOW*%`S*%`S*%`S)!`S)!`S)!^S*X&gt;S*X&gt;S*X&gt;S)T&gt;S)T&gt;S)T@S=:#,8/1CBZ1MHCS54*J-E(3'IO1F]33?R*.Y_+D%EXA34_**0(22YEE]C3@R*"['+@%EHM34?")05QV*DI-=4_*B?A7?Q".Y!E`A95E&amp;HA!1,":-(%Q#1U&amp;D="*Y!E`AY63"*`!%HM!4?'B7Y!E]A3@Q""['D&amp;W*I?E(/2[GE?.R0)\(]4A?JJ&lt;D=4S/R`%Y(J;4YX%]$M*:U*E=AJR"4A@HA_.R0,T*]4A?R_.Y(!^.YQLZW*GO[1=Z(M.D?!S0Y4%]4#($9XA-D_%R0%QLQW.Y$)`B-4QM*=.D?!S0!4%7:8E:ERE$D5Z'9(DY'X?,D;M51W,DE/LG6&gt;W5KJN.&gt;2/J&lt;A\626&gt;&gt;4.6&amp;5GW_;F.6G[8;".785[&amp;6'.5CKM'^IQ[]\KE\[J;[JC[J#_K=/K./_^!P\HAY(,4@\\8&lt;\&lt;4&gt;&lt;L6?L\6=,L69,$3@TT7&lt;T43&gt;4J]@!Z==TQ_%R_@3$??L]^P*[PZON&lt;K[YZTXC_N*TX`A``-P?$&lt;K2+`89)]?!#Z#G&amp;E!!!!!</Property>
 	<Property Name="NI.Lib.SourceVersion" Type="Int">419463168</Property>
 	<Property Name="NI.Lib.Version" Type="Str">1.0.0.0</Property>
@@ -119,4 +121,5 @@
 	<Item Name="Main.vi" Type="VI" URL="../Main.vi">
 		<Property Name="NI.LibItem.Scope" Type="Int">2</Property>
 	</Item>
+	<Item Name="Validar_Value_adc.vi" Type="VI" URL="../Validar_Value_adc.vi"/>
 </Library>

@@ -1,5 +1,8 @@
 ﻿<?xml version='1.0' encoding='UTF-8'?>
 <Project Type="Project" LVVersion="19008000">
+	<Property Name="CCSymbols" Type="Str"></Property>
+	<Property Name="NI.LV.All.SourceOnly" Type="Bool">false</Property>
+	<Property Name="NI.Project.Description" Type="Str">With the help of a clonable DQMH module, object-oriented programming is carried out in which each object is a microcontroller which obtains and sets different information through commands sent by the interface, which are automatically generated depending on the microcontroller chosen.</Property>
 	<Item Name="My Computer" Type="My Computer">
 		<Property Name="NI.SortType" Type="Int">3</Property>
 		<Property Name="server.app.propertiesEnabled" Type="Bool">true</Property>
@@ -36,6 +39,7 @@
 		<Item Name="Identificar_Switch_Presionado.vi" Type="VI" URL="../Identificar_Switch_Presionado.vi"/>
 		<Item Name="Identificar_todos_los_switches.vi" Type="VI" URL="../Identificar_todos_los_switches.vi"/>
 		<Item Name="Obtener_valor_ADC.vi" Type="VI" URL="../Obtener_valor_ADC.vi"/>
+		<Item Name="Validar MCU.vi" Type="VI" URL="../Libraries/Multiple_uC/Validar MCU.vi"/>
 		<Item Name="Dependencies" Type="Dependencies">
 			<Item Name="vi.lib" Type="Folder">
 				<Item Name="Stall Data Flow.vim" Type="VI" URL="/&lt;vilib&gt;/Utility/Stall Data Flow.vim"/>

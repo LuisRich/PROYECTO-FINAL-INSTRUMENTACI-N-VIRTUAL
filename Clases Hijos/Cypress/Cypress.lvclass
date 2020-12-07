@@ -1,5 +1,9 @@
 ﻿<?xml version='1.0' encoding='UTF-8'?>
 <LVClass LVVersion="19008000">
+	<Property Name="NI.Lib.Description" Type="Str">Class to obtain access to Cypress MCU. 
+This MCU can obtain the simulated temperature from pot conected to P3.0, read and write a 8-bit 
+The code of the MCU is in Psoc Creator</Property>
+	<Property Name="NI.Lib.HelpPath" Type="Str"></Property>
 	<Property Name="NI.Lib.Icon" Type="Bin">'1#!!!!!!!)!"1!&amp;!!!-!%!!!@````]!!!!"!!%!!!)\!!!*Q(C=\&gt;9R&lt;BJ"'-8RNV%+N^Q!=10H.7YDU=1^6`CO1,MF6`D[6*T!%F@YLM!6O!,Z\T$'M2+"%BP*B8=^?(GT-`.D&gt;DR9;M?&gt;^&amp;8(;Y=O(P^10VU?J`0X.C`8T\7HC\`7^\MON(`&gt;_-`R,^6@]`^H`:OG^`0Y0'Z_D&amp;=8[=X8\($[MTY?CZ+5I0CU:22ZE2&gt;ZE2&gt;ZE3&gt;ZEC&gt;ZEC&gt;ZEA&gt;ZE!&gt;ZE!&gt;ZE*P=Z#9XO=H^P/G1CVTE=NMCCM',A9J/CQ[+G['I?#E]B;@Q&amp;"\?KP!5HM*4?!I0N[DQ&amp;*\#5XA+$]V5?!J0Y3E]B9?OGK4;39[H].#^%E`C34S**`%QJ"*0!EA'3TJ//I'BJ$+Z3$S**`&amp;QK=34?"*0YEE]6#PR**\%EXA3$UX;L'444#=Z(LJ2Y!E]A3@Q""[[6O!*0)%H]!1?BF0A#4Q")BAQ["S#AE&lt;"$='&lt;Q".Y_+8!%XA#4_!*0&amp;3V*R2N:C&lt;.&gt;*,D-2\D-2\D-2[[E0%9D`%9D`(1L9T(?)T(?)S(I71]RG-]"G)':8C:TER$=Z-*D)?@NFL=HF)WC&gt;OJ`HX8&amp;KL[!F2@7/I,2HUBK$^A^1?H`E$5*VJ^!N5H2PU$KX]1&gt;;$[Q/I&gt;KN_I![^\SI[SJ7QI;]K+MK1M+,/J[4P@?$A=N.`PN&gt;PNN.VON&gt;FMN&amp;[PN6KNN&amp;QON6AM.*P.TNP!H0/]):TWJ:(L6LY^$?0DTW(]`D#-0_&lt;$?$]@TH75'XW8@I#^56^?`=P$(0U#-.&gt;$#1!!!!!</Property>
 	<Property Name="NI.Lib.SourceVersion" Type="Int">419463168</Property>
 	<Property Name="NI.Lib.Version" Type="Str">1.0.0.1</Property>

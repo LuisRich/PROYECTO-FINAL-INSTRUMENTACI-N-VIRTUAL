@@ -1,0 +1,2357 @@
+= Virtual Instrumentation: Multiples Microcontrollers
+Luis Manuel Rico Chávez <luismanuelrich@gmail.com>
+:doctype: book
+:toc: 
+:imagesdir: Images
+:sectnums: 
+:toclevels: 3
+:chapter-label: Section
+
+== Project description
+
+With the help of a clonable DQMH module, object-oriented programming is carried out in which each object is a microcontroller which obtains and sets different information through commands sent by the interface, which are automatically generated depending on the microcontroller chosen.
+
+== Code component descriptions
+
+=== DQMH(R) modules
+
+This section describes DQMH(R) module responsibilities and relationships.
+
+==== Preamble
+
+A DQMH module is the main component of an architecture based on DQMH(R) framework. A DQMH module is used to implement a section of the application that has one responsibility.
+
+DQMH(R) framework defines two different type of DQMH module.  
+
+====
+*Singleton:*
+
+A Singleton DQMH module can have only one instance running at any given time.
+====
+
+====
+*Cloneable:*
+
+A Cloneable DQMH module can have one or multiple instances running in parallel.
+====
+
+DQMH(R) framework defines two different ways to carry data throughout the application and with both other DQMH modules and non-DQMH based code.
+
+====
+*Request events:*
+
+A request is a code that fires an event requesting the DQMH module to do something. Multiple locations in the code can send events to the DQMH module.
+
+Request events are many-to-one.
+
+Requests are usually named using imperative tense.
+====
+
+====
+*Broadcast events:*
+
+A broadcast is a code that fires an event broadcasting that the DQMH module did something. Multiple Event Structures can register to handle the Broadcast Events.
+
+Broadcast Events are one-to-many.
+
+Broadcasts are usually named using past tense or passive voice.
+====
+
+NOTE: Refer to the DQMH(R) framework official http://delacor.com/documentation/dqmh-html/[documentation] to find more details on how the framework works
+
+
+The following section gives you details on the project architecture relying on this framework.
+It gives you an overview of the modules' interaction and detailed information on each module.
+
+Graphs used in this section have the following legend:
+
+*Components:*
+
+
+[graphviz, format="png", align="center"]
+....
+digraph G611443 {
+rankdir=LR;
+edge[dir=both color=black  arrowhead=normal arrowtail=none style=filled penwidth=1]
+node[color=black shape=box]
+"DQMH module / Lvlib"[color=black shape=component]
+"Vi"[color=skyblue shape=note]
+}
+....
+
+*Events:*
+
+[graphviz, format="png", align="center"]
+....
+digraph G736499 {
+rankdir=LR;
+edge[dir=both color=black  arrowhead=normal arrowtail=none style=filled penwidth=1]
+node[color=black shape=box]
+" "[color=white shape=box]
+"  "[color=white shape=box]
+"   "[color=white shape=box]
+"    "[color=white shape=box]
+" " -> "  " [label="Request to a DQMH module" dir=both color=forestgreen  arrowhead=normal arrowtail=none style=filled penwidth=1];
+"   " -> "    " [label="Broadcast from a DQMH module" dir=both color=goldenrod  arrowhead=normal arrowtail=none style=dashed penwidth=1];
+}
+....
+
+*Start and Stop module callers:*
+
+[graphviz, format="png", align="center"]
+....
+digraph G376610 {
+rankdir=LR;
+edge[dir=both color=black  arrowhead=normal arrowtail=none style=filled penwidth=1]
+node[color=black shape=box]
+"Start Module
+caller"[color=black shape=component]
+"Start Module"[color=yellowgreen shape=note]
+"Start Module" -> "Start Module
+caller" [label="Called by" dir=both color=yellowgreen  arrowhead=odot arrowtail=inv style=filled penwidth=1];
+}
+....
+
+[graphviz, format="png", align="center"]
+....
+digraph G97177 {
+rankdir=LR;
+edge[dir=both color=black  arrowhead=normal arrowtail=none style=filled penwidth=1]
+node[color=black shape=box]
+"Stop Module
+caller"[color=black shape=component]
+"Stop Module"[color=tomato shape=note]
+"Stop Module" -> "Stop Module
+caller" [label="Called by" dir=both color=tomato  arrowhead=odot arrowtail=inv style=dotted penwidth=1];
+}
+....
+
+
+==== Modules overview
+
+This project contains the following modules.
+
+.Modules list
+|===
+|Singleton|Cloneable
+
+|
+|<<Multiple_uC.lvlib>>
+|===
+
+This graph represents the links between all DQMH modules.
+
+[graphviz, format="png", align="center"]
+....
+digraph G892513 {
+rankdir=LR;
+edge[dir=both color=black  arrowhead=normal arrowtail=none style=filled penwidth=1]
+node[color=black shape=box]
+"Multiple_uC"[color=black shape=component]
+"Multiple_uC" -> "Multiple_uC" [dir=both color=forestgreen  arrowhead=normal arrowtail=none style=filled penwidth=1];
+}
+....
+
+
+==== Multiple_uC.lvlib
+
+*Type:* Cloneable
+
+*Responsibility*: This clonable module of DQMH can evaluate 3 microcontroller at the same time. All the comands were generated with global commands and inheritance
+
+===== Module Start/Stop calls
+
+[graphviz, format="png", align="center"]
+....
+digraph G526289 {
+rankdir=LR;
+edge[dir=both color=black  arrowhead=normal arrowtail=none style=filled penwidth=1]
+node[color=black shape=box]
+"Start Module"[color=yellowgreen shape=note]
+"Test Multiple_uC API"[color=skyblue shape=note]
+"Stop Module"[color=tomato shape=note]
+"Multiple_uC"[color=black shape=component]
+"Start Module" -> "Test Multiple_uC API" [dir=both color=yellowgreen  arrowhead=odot arrowtail=inv style=filled penwidth=1];
+"Stop Module" -> "Multiple_uC" [dir=both color=tomato  arrowhead=odot arrowtail=inv style=dotted penwidth=1];
+"Stop Module" -> "Test Multiple_uC API" [dir=both color=tomato  arrowhead=odot arrowtail=inv style=dotted penwidth=1];
+}
+....
+
+.Start and Stop module callers
+|===
+|Function|Callers
+
+|<<Multiple_uC.lvlib:Start Module.vi>>
+|Test Multiple_uC API.vi
+
+|<<Multiple_uC.lvlib:Stop Module.vi>>
+|Multiple_uC.lvlib:Handle Exit.vi +
+Test Multiple_uC API.vi
+|===
+
+===== Module relationship
+
+[graphviz, format="png", align="center"]
+....
+digraph G743457 {
+rankdir=LR;
+edge[dir=both color=black  arrowhead=normal arrowtail=none style=filled penwidth=1]
+node[color=black shape=box]
+"Multiple_uC"[color=slateblue shape=component]
+"Test Multiple_uC API"[color=skyblue shape=note]
+"Test Multiple_uC API" -> "Multiple_uC" [dir=both color=forestgreen  arrowhead=normal arrowtail=none style=filled penwidth=1];
+"Multiple_uC" -> "Multiple_uC" [dir=both color=forestgreen  arrowhead=normal arrowtail=none style=filled penwidth=1];
+"Multiple_uC" -> "Test Multiple_uC API" [label=" " dir=both color=goldenrod  arrowhead=normal arrowtail=none style=dashed penwidth=1];
+}
+....
+
+.Requests callers
+|===
+|Request Name|Callers
+
+|<<Multiple_uC.lvlib:Show Panel.vi>>
+|Test Multiple_uC API.vi
+
+|<<Multiple_uC.lvlib:Hide Panel.vi>>
+|Test Multiple_uC API.vi
+
+|<<Multiple_uC.lvlib:Show Diagram.vi>>
+|Test Multiple_uC API.vi
+
+|<<Multiple_uC.lvlib:ADC´s View.vi>>
+|Test Multiple_uC API.vi
+
+|<<Multiple_uC.lvlib:Write_1BIT.vi>>
+|Test Multiple_uC API.vi
+
+|<<Multiple_uC.lvlib:Set 8 bits.vi>>
+|Test Multiple_uC API.vi
+
+|<<Multiple_uC.lvlib:GET_1BIT.vi>>
+|Test Multiple_uC API.vi
+
+|<<Multiple_uC.lvlib:GET_8BITS.vi>>
+|Test Multiple_uC API.vi
+|===
+
+.Broadcasts Listeners
+|===
+|Broadcast Name|Listeners
+
+|<<Multiple_uC.lvlib:Module Did Init.vi>>
+|Test Multiple_uC API.vi
+
+|<<Multiple_uC.lvlib:Status Updated.vi>>
+|Test Multiple_uC API.vi
+
+|<<Multiple_uC.lvlib:Error Reported.vi>>
+|Test Multiple_uC API.vi
+
+|<<Multiple_uC.lvlib:Module Did Stop.vi>>
+|Test Multiple_uC API.vi
+
+|<<Multiple_uC.lvlib:Update Module Execution Status.vi>>
+|Test Multiple_uC API.vi
+|===
+
+.Used requests
+|===
+|Module|Broadcasts
+
+|--
+|--
+|===
+
+.Registered broadcast
+|===
+|Module|Broadcasts
+
+|--
+|--
+|===
+
+=== Libraries
+
+This section describes the libraries contained in the project.
+
+==== VITesterUtilities.lvlib
+
+No description found (add content in lvlib description)
+
+
+=== Classes
+
+This section describes the classes contained in the project.
+
+==== Serial Device.lvclass
+
+This is the fathers class where the childs can inherit the actions of the father
+
+
+
+==== NXP.lvclass
+
+Class to obtain access to NXP MCU. 
+This MCU can obtain the temperature in LM35 conected to J12.2, read and write a 8-bit 
+The code of the MCU is in MCUXpresso, their name is Proyecto_UART_ADC_&_IO_DIGITAL
+
+
+
+==== Simulated uC.lvclass
+
+Class to obtain access to Simulated MCU. 
+This MCU can obtain the simulated commands with an specific response
+
+
+
+==== Cypress.lvclass
+
+Class to obtain access to Cypress MCU. 
+This MCU can obtain the simulated temperature from pot conected to P3.0, read and write a 8-bit 
+The code of the MCU is in Psoc Creator
+
+
+==== tests_actions.lvclass
+
+This class is generated to do a test from VI Tester. In this class we can observe a template to generate code to test commands. This is used to prove simulated commands and those responses
+
+
+==== Delacor_lib_QMH_Cloneable Module Admin.lvclass
+
+No description found (add content in lvlib description)
+
+
+==== Delacor_lib_QMH_Module Admin.lvclass
+
+No description found (add content in lvlib description)
+
+
+==== Delacor_lib_QMH_Message Queue.lvclass
+
+No description found (add content in lvlib description)
+
+
+==== TestCase.lvclass
+
+No description found (add content in lvlib description)
+
+
+==== TestResult.lvclass
+
+No description found (add content in lvlib description)
+
+
+==== TestSuite.lvclass
+
+No description found (add content in lvlib description)
+
+
+==== TestLoader.lvclass
+
+No description found (add content in lvlib description)
+
+
+== VI descriptions
+
+=== DQMH(R) modules
+
+This section describes DQMH(R) modules events.
+
+==== Multiple_uC.lvlib
+
+===== Multiple_uC.lvlib:Start Module.vi
+
+*Event type:* Not a DQMH Event
+
+:imgpath: Multiple_uC.lvlib_Start Module.vi.png
+image::{imgpath}[Multiple_uC.lvlib:Start Module.vi]
+
+*Description:*
+++++
+Launches the Module Main.vi.
+_____
+Based on Delacor QMH Project Template 5.0.0.82.
+++++
+
+===== Multiple_uC.lvlib:Stop Module.vi
+
+*Event type:* Not a DQMH Event
+
+:imgpath: Multiple_uC.lvlib_Stop Module.vi.png
+image::{imgpath}[Multiple_uC.lvlib:Stop Module.vi]
+
+*Description:*
+++++
+Send the Stop request to the Module's Main.vi.
+_____
+Based on Delacor QMH Project Template 5.0.0.82.
+++++
+
+===== Multiple_uC.lvlib:Show Panel.vi
+
+*Event type:* Request
+
+:imgpath: Multiple_uC.lvlib_Show Panel.vi.png
+image::{imgpath}[Multiple_uC.lvlib:Show Panel.vi]
+
+*Description:*
+++++
+Send the Show Panel request to the Module's Main.vi.
+_____
+Based on Delacor QMH Project Template 5.0.0.82.
+++++
+
+===== Multiple_uC.lvlib:Hide Panel.vi
+
+*Event type:* Request
+
+:imgpath: Multiple_uC.lvlib_Hide Panel.vi.png
+image::{imgpath}[Multiple_uC.lvlib:Hide Panel.vi]
+
+*Description:*
+++++
+Send the Hide Panel request to the Module's Main.vi.
+_____
+Based on Delacor QMH Project Template 5.0.0.82.
+++++
+
+===== Multiple_uC.lvlib:Show Diagram.vi
+
+*Event type:* Request
+
+:imgpath: Multiple_uC.lvlib_Show Diagram.vi.png
+image::{imgpath}[Multiple_uC.lvlib:Show Diagram.vi]
+
+*Description:*
+++++
+This VI tells the Module to show its block diagram to facilitate troubleshooting (add probes, breakpoints, highlight execution, etc).
+
+_____
+Based on Delacor QMH Project Template 5.0.0.82.
+++++
+
+===== Multiple_uC.lvlib:ADC´s View.vi
+
+*Event type:* Request And Wait For Reply
+
+:imgpath: Multiple_uC.lvlib_ADC´s View.vi.png
+image::{imgpath}[Multiple_uC.lvlib:ADC´s View.vi]
+
+*Description:*
+++++
+Request and wait for reply of ADC Channel
+_____
+Created using Delacor QMH Event Scripter 5.0.0.112.
+++++
+
+===== Multiple_uC.lvlib:Write_1BIT.vi
+
+*Event type:* Request And Wait For Reply
+
+:imgpath: Multiple_uC.lvlib_Write_1BIT.vi.png
+image::{imgpath}[Multiple_uC.lvlib:Write_1BIT.vi]
+
+*Description:*
+++++
+Event to rewrite the value of one bit in an array
+_____
+Created using Delacor QMH Event Scripter 5.0.0.112.
+++++
+
+===== Multiple_uC.lvlib:Set 8 bits.vi
+
+*Event type:* Request And Wait For Reply
+
+:imgpath: Multiple_uC.lvlib_Set 8 bits.vi.png
+image::{imgpath}[Multiple_uC.lvlib:Set 8 bits.vi]
+
+*Description:*
+++++
+Set a number of 8 bits in the microcontroller
+_____
+Created using Delacor QMH Event Scripter 5.0.0.112.
+++++
+
+===== Multiple_uC.lvlib:GET_1BIT.vi
+
+*Event type:* Request And Wait For Reply
+
+:imgpath: Multiple_uC.lvlib_GET_1BIT.vi.png
+image::{imgpath}[Multiple_uC.lvlib:GET_1BIT.vi]
+
+*Description:*
+++++
+Obtain the value of 1 specific bit of the input of the microcontroller
+_____
+Created using Delacor QMH Event Scripter 5.0.0.112.
+++++
+
+===== Multiple_uC.lvlib:GET_8BITS.vi
+
+*Event type:* Request And Wait For Reply
+
+:imgpath: Multiple_uC.lvlib_GET_8BITS.vi.png
+image::{imgpath}[Multiple_uC.lvlib:GET_8BITS.vi]
+
+*Description:*
+++++
+Event created to get the eight bits of the eight inputs in the microcontroller
+_____
+Created using Delacor QMH Event Scripter 5.0.0.112.
+++++
+
+===== Multiple_uC.lvlib:Module Did Init.vi
+
+*Event type:* Broadcast
+
+:imgpath: Multiple_uC.lvlib_Module Did Init.vi.png
+image::{imgpath}[Multiple_uC.lvlib:Module Did Init.vi]
+
+*Description:*
+++++
+Send the Module Did Init event to any VI registered to listen to this module's broadcast events.
+_____
+Based on Delacor QMH Project Template 5.0.0.82.
+++++
+
+===== Multiple_uC.lvlib:Status Updated.vi
+
+*Event type:* Broadcast
+
+:imgpath: Multiple_uC.lvlib_Status Updated.vi.png
+image::{imgpath}[Multiple_uC.lvlib:Status Updated.vi]
+
+*Description:*
+++++
+Send the Status Updated event to any VI registered to listen to events from the owning module.
+_____
+Based on Delacor QMH Project Template 5.0.0.82.
+++++
+
+===== Multiple_uC.lvlib:Error Reported.vi
+
+*Event type:* Broadcast
+
+:imgpath: Multiple_uC.lvlib_Error Reported.vi.png
+image::{imgpath}[Multiple_uC.lvlib:Error Reported.vi]
+
+*Description:*
+++++
+Send the Error Reported event to any VI registered to listen to events from the owning module.
+_____
+Based on Delacor QMH Project Template 5.0.0.82.
+++++
+
+===== Multiple_uC.lvlib:Module Did Stop.vi
+
+*Event type:* Broadcast
+
+:imgpath: Multiple_uC.lvlib_Module Did Stop.vi.png
+image::{imgpath}[Multiple_uC.lvlib:Module Did Stop.vi]
+
+*Description:*
+++++
+Send the Module Did Stop event to any VI registered to listen to this module's broadcast events.
+_____
+Based on Delacor QMH Project Template 5.0.0.82.
+++++
+
+===== Multiple_uC.lvlib:Update Module Execution Status.vi
+
+*Event type:* Broadcast
+
+:imgpath: Multiple_uC.lvlib_Update Module Execution Status.vi.png
+image::{imgpath}[Multiple_uC.lvlib:Update Module Execution Status.vi]
+
+*Description:*
+++++
+Fire the Get Module Execution Status request.
+_____
+Created using Delacor QMH Event Scripter 3.0.0.12.
+_____
+Based on Delacor QMH Project Template 5.0.0.82.
+++++
+
+=== Libraries
+
+This section describes libraries public VIs.
+
+==== VITesterUtilities.lvlib
+
+===== VITesterUtilities.lvlib:Get LVClass Name from TD__jki_vi_tester.vi
+
+:imgpath: VITesterUtilities.lvlib_Get LVClass Name from TD__jki_vi_tester.vi.png
+image::{imgpath}[VITesterUtilities.lvlib:Get LVClass Name from TD__jki_vi_tester.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== VITesterUtilities.lvlib:Load Test Case from File.vi
+
+:imgpath: VITesterUtilities.lvlib_Load Test Case from File.vi.png
+image::{imgpath}[VITesterUtilities.lvlib:Load Test Case from File.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== VITesterUtilities.lvlib:Get LVClass Name from Data String__jki_vi_tester.vi
+
+:imgpath: VITesterUtilities.lvlib_Get LVClass Name from Data String__jki_vi_tester.vi.png
+image::{imgpath}[VITesterUtilities.lvlib:Get LVClass Name from Data String__jki_vi_tester.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== VITesterUtilities.lvlib:Set Front Panel Object Control Value__jki_vi_tester.vi
+
+:imgpath: VITesterUtilities.lvlib_Set Front Panel Object Control Value__jki_vi_tester.vi.png
+image::{imgpath}[VITesterUtilities.lvlib:Set Front Panel Object Control Value__jki_vi_tester.vi]
+
+*Description:*
+++++
+Sets the FP control value of an LVClass control, whose type matches the specific type of object in <B>Object in</B> to the value of <B>Object in</B>.
+++++
+
+===== VITesterUtilities.lvlib:Set Front Panel TestSuite Object Control Value__jki_vi_tester.vi
+
+:imgpath: VITesterUtilities.lvlib_Set Front Panel TestSuite Object Control Value__jki_vi_tester.vi.png
+image::{imgpath}[VITesterUtilities.lvlib:Set Front Panel TestSuite Object Control Value__jki_vi_tester.vi]
+
+*Description:*
+++++
+Sets the FP control value of an LVClass control, whose type matches the specific type of object in <B>Object in</B> to the value of <B>Object in</B>.
+++++
+
+===== VITesterUtilities.lvlib:Get All__jki_vi_tester.vi
+
+:imgpath: VITesterUtilities.lvlib_Get All__jki_vi_tester.vi.png
+image::{imgpath}[VITesterUtilities.lvlib:Get All__jki_vi_tester.vi]
+
+*Description:*
+++++
+Retrieves all elements in tree at and below the starting tag. When Starting Tag and Input Tree Items are left unwired it will return all elements in the tree. 
+++++
+
+===== VITesterUtilities.lvlib:Get Children__jki_vi_tester.vi
+
+:imgpath: VITesterUtilities.lvlib_Get Children__jki_vi_tester.vi.png
+image::{imgpath}[VITesterUtilities.lvlib:Get Children__jki_vi_tester.vi]
+
+*Description:*
+++++
+Collects and returns all tags of parents immediate children. If the parent tag is an empty string, the currently selected item is used.
+++++
+
+===== VITesterUtilities.lvlib:Get Current__jki_vi_tester.vi
+
+:imgpath: VITesterUtilities.lvlib_Get Current__jki_vi_tester.vi.png
+image::{imgpath}[VITesterUtilities.lvlib:Get Current__jki_vi_tester.vi]
+
+*Description:*
+++++
+Returns the tag of the currently selected item in the tree. If there is no item selected an empty string is returned.
+++++
+
+===== VITesterUtilities.lvlib:Get Oldest__jki_vi_tester.vi
+
+:imgpath: VITesterUtilities.lvlib_Get Oldest__jki_vi_tester.vi.png
+image::{imgpath}[VITesterUtilities.lvlib:Get Oldest__jki_vi_tester.vi]
+
+*Description:*
+++++
+Collects and returns all tags of oldest (leftmost) items in the tree.
+++++
+
+===== VITesterUtilities.lvlib:Get Parent__jki_vi_tester.vi
+
+:imgpath: VITesterUtilities.lvlib_Get Parent__jki_vi_tester.vi.png
+image::{imgpath}[VITesterUtilities.lvlib:Get Parent__jki_vi_tester.vi]
+
+*Description:*
+++++
+Retrieves the parent of the child. Uses the currently selected item if input is left unwired or empty string. Also returns a 1-D array of all members in its family starting at its parent and leading back to its most mature member.
+++++
+
+===== VITesterUtilities.lvlib:Get Siblings__jki_vi_tester.vi
+
+:imgpath: VITesterUtilities.lvlib_Get Siblings__jki_vi_tester.vi.png
+image::{imgpath}[VITesterUtilities.lvlib:Get Siblings__jki_vi_tester.vi]
+
+*Description:*
+++++
+Retrieves a 1-D array of tags of all items in the tree that have the same parent and deletes the requested tag giving all siblings of an item. Uses the currently selected item if the tag input is unwired.
+++++
+
+===== VITesterUtilities.lvlib:INDEX - Tree Control__jki_vi_tester.vi
+
+:imgpath: VITesterUtilities.lvlib_INDEX - Tree Control__jki_vi_tester.vi.png
+image::{imgpath}[VITesterUtilities.lvlib:INDEX - Tree Control__jki_vi_tester.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== VITesterUtilities.lvlib:Item Add__jki_vi_tester.vi
+
+:imgpath: VITesterUtilities.lvlib_Item Add__jki_vi_tester.vi.png
+image::{imgpath}[VITesterUtilities.lvlib:Item Add__jki_vi_tester.vi]
+
+*Description:*
+++++
+Adds a new item to the tree. Uses the current selection if there is no parent value input. The tag is set to the same value as the input text if it is left blank. NOTE: TAGS MUST BE UNIQUE.
+++++
+
+===== VITesterUtilities.lvlib:Item Indent__jki_vi_tester.vi
+
+:imgpath: VITesterUtilities.lvlib_Item Indent__jki_vi_tester.vi.png
+image::{imgpath}[VITesterUtilities.lvlib:Item Indent__jki_vi_tester.vi]
+
+*Description:*
+++++
+Takes the input tag item and places it along with its children as a child family of its current topmost sibling. Ignores the indent command if there is no current sibling to indent under.
+++++
+
+===== VITesterUtilities.lvlib:Item Modify__jki_vi_tester.vi
+
+:imgpath: VITesterUtilities.lvlib_Item Modify__jki_vi_tester.vi.png
+image::{imgpath}[VITesterUtilities.lvlib:Item Modify__jki_vi_tester.vi]
+
+*Description:*
+++++
+Modifies an item in the tree. Uses the current item if input is blank. Allows to modify both the tag and text
+++++
+
+===== VITesterUtilities.lvlib:Item Outdent__jki_vi_tester.vi
+
+:imgpath: VITesterUtilities.lvlib_Item Outdent__jki_vi_tester.vi.png
+image::{imgpath}[VITesterUtilities.lvlib:Item Outdent__jki_vi_tester.vi]
+
+*Description:*
+++++
+Outdents the currently selected item or the input tag to the same indent level of its parent. Places in the topmost position of its siblings thus disrupting the order. If already at the most mature level in the tree, it moves it to the top of the structure.
+++++
+
+===== VITesterUtilities.lvlib:Item Properties__jki_vi_tester.vi
+
+:imgpath: VITesterUtilities.lvlib_Item Properties__jki_vi_tester.vi.png
+image::{imgpath}[VITesterUtilities.lvlib:Item Properties__jki_vi_tester.vi]
+
+*Description:*
+++++
+Gets a limited set of properties about the input item 
+
+++++
+
+===== VITesterUtilities.lvlib:Item Remove__jki_vi_tester.vi
+
+:imgpath: VITesterUtilities.lvlib_Item Remove__jki_vi_tester.vi.png
+image::{imgpath}[VITesterUtilities.lvlib:Item Remove__jki_vi_tester.vi]
+
+*Description:*
+++++
+Deletes item from tree along with any children. Uses the current selection if there is no item input. If there is no item selected within the tree it deletes nothing. Returns error code 1136 if an invalid tag is passed in
+++++
+
+===== VITesterUtilities.lvlib:Tag Check__jki_vi_tester.vi
+
+:imgpath: VITesterUtilities.lvlib_Tag Check__jki_vi_tester.vi.png
+image::{imgpath}[VITesterUtilities.lvlib:Tag Check__jki_vi_tester.vi]
+
+*Description:*
+++++
+Checks the input tag and makes sure that it is a valid tag within the referenced tree. Returns all errors including the invalid tag error.
+++++
+
+===== VITesterUtilities.lvlib:Tag Convert__jki_vi_tester.vi
+
+:imgpath: VITesterUtilities.lvlib_Tag Convert__jki_vi_tester.vi.png
+image::{imgpath}[VITesterUtilities.lvlib:Tag Convert__jki_vi_tester.vi]
+
+*Description:*
+++++
+Retrieves the text in column 0 assosciated with the Input Tag or if there is no input, the currently selected item. Ignores the call if no item is selected. Returns error code 1136 if an improper tag is input.
+++++
+
+===== VITesterUtilities.lvlib:Tag Find__jki_vi_tester.vi
+
+:imgpath: VITesterUtilities.lvlib_Tag Find__jki_vi_tester.vi.png
+image::{imgpath}[VITesterUtilities.lvlib:Tag Find__jki_vi_tester.vi]
+
+*Description:*
+++++
+Searches the tree for a tag whose text matches the Input text.
+ 
+USE SPARINGLY - Processor Intensive
+++++
+
+===== VITesterUtilities.lvlib:Tree Collapse__jki_vi_tester.vi
+
+:imgpath: VITesterUtilities.lvlib_Tree Collapse__jki_vi_tester.vi.png
+image::{imgpath}[VITesterUtilities.lvlib:Tree Collapse__jki_vi_tester.vi]
+
+*Description:*
+++++
+Collapses the tree to the oldest level
+
+++++
+
+===== VITesterUtilities.lvlib:Tree Empty__jki_vi_tester.vi
+
+:imgpath: VITesterUtilities.lvlib_Tree Empty__jki_vi_tester.vi.png
+image::{imgpath}[VITesterUtilities.lvlib:Tree Empty__jki_vi_tester.vi]
+
+*Description:*
+++++
+Deletes all elements from<B>Tree Reference In</B>. Passes deleted elements from the tree out in a 1-D array. The array is ordered top to bottom item as they were in the tree.
+++++
+
+===== VITesterUtilities.lvlib:Tree Expand__jki_vi_tester.vi
+
+:imgpath: VITesterUtilities.lvlib_Tree Expand__jki_vi_tester.vi.png
+image::{imgpath}[VITesterUtilities.lvlib:Tree Expand__jki_vi_tester.vi]
+
+*Description:*
+++++
+Expands the entire tree
+++++
+
+===== VITesterUtilities.lvlib:Get Test Members__jki_vi_tester.vi
+
+:imgpath: VITesterUtilities.lvlib_Get Test Members__jki_vi_tester.vi.png
+image::{imgpath}[VITesterUtilities.lvlib:Get Test Members__jki_vi_tester.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== VITesterUtilities.lvlib:Check if Path Is Test__jki_vi_tester.vi
+
+:imgpath: VITesterUtilities.lvlib_Check if Path Is Test__jki_vi_tester.vi.png
+image::{imgpath}[VITesterUtilities.lvlib:Check if Path Is Test__jki_vi_tester.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== VITesterUtilities.lvlib:Get Project Scan Path__jki_vi_tester.vi
+
+:imgpath: VITesterUtilities.lvlib_Get Project Scan Path__jki_vi_tester.vi.png
+image::{imgpath}[VITesterUtilities.lvlib:Get Project Scan Path__jki_vi_tester.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== VITesterUtilities.lvlib:Find Project Test Objects__jki_vi_tester.vi
+
+:imgpath: VITesterUtilities.lvlib_Find Project Test Objects__jki_vi_tester.vi.png
+image::{imgpath}[VITesterUtilities.lvlib:Find Project Test Objects__jki_vi_tester.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== VITesterUtilities.lvlib:GetControlRef__jki_vi_tester.vi
+
+:imgpath: VITesterUtilities.lvlib_GetControlRef__jki_vi_tester.vi.png
+image::{imgpath}[VITesterUtilities.lvlib:GetControlRef__jki_vi_tester.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== VITesterUtilities.lvlib:Create TestCase Template Instance__jki_vi_tester.vi
+
+:imgpath: VITesterUtilities.lvlib_Create TestCase Template Instance__jki_vi_tester.vi.png
+image::{imgpath}[VITesterUtilities.lvlib:Create TestCase Template Instance__jki_vi_tester.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== VITesterUtilities.lvlib:Create TestSuite Template Instance__jki_vi_tester.vi
+
+:imgpath: VITesterUtilities.lvlib_Create TestSuite Template Instance__jki_vi_tester.vi.png
+image::{imgpath}[VITesterUtilities.lvlib:Create TestSuite Template Instance__jki_vi_tester.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== VITesterUtilities.lvlib:Check if Path Is Test Class__jki_vi_tester.vi
+
+:imgpath: VITesterUtilities.lvlib_Check if Path Is Test Class__jki_vi_tester.vi.png
+image::{imgpath}[VITesterUtilities.lvlib:Check if Path Is Test Class__jki_vi_tester.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== VITesterUtilities.lvlib:Get All Project Class Paths__jki_vi_tester.vi
+
+:imgpath: VITesterUtilities.lvlib_Get All Project Class Paths__jki_vi_tester.vi.png
+image::{imgpath}[VITesterUtilities.lvlib:Get All Project Class Paths__jki_vi_tester.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== VITesterUtilities.lvlib:Get Platform Path Separator__jki_vi_tester.vi
+
+:imgpath: VITesterUtilities.lvlib_Get Platform Path Separator__jki_vi_tester.vi.png
+image::{imgpath}[VITesterUtilities.lvlib:Get Platform Path Separator__jki_vi_tester.vi]
+
+*Description:*
+++++
+Returns the path separator for the platform on which the software is running, as shown below:
+
+Windows: "\" (backslash)
+Linux: "/" (slash)
+Mac: ":" (colon)
+++++
+
+===== VITesterUtilities.lvlib:Get All Methods from LVObject__jki_vi_tester.vi
+
+:imgpath: VITesterUtilities.lvlib_Get All Methods from LVObject__jki_vi_tester.vi.png
+image::{imgpath}[VITesterUtilities.lvlib:Get All Methods from LVObject__jki_vi_tester.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== VITesterUtilities.lvlib:Get All Methods from LVClass Path__jki_vi_tester.vi
+
+:imgpath: VITesterUtilities.lvlib_Get All Methods from LVClass Path__jki_vi_tester.vi.png
+image::{imgpath}[VITesterUtilities.lvlib:Get All Methods from LVClass Path__jki_vi_tester.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== VITesterUtilities.lvlib:Create Test GUID__jki_vi_tester.vi
+
+:imgpath: VITesterUtilities.lvlib_Create Test GUID__jki_vi_tester.vi.png
+image::{imgpath}[VITesterUtilities.lvlib:Create Test GUID__jki_vi_tester.vi]
+
+*Description:*
+++++
+Outputs a <B>random data</B> string of the specified <B>length</B>.
+++++
+
+===== VITesterUtilities.lvlib:Get LV Class Members from Path__jki_vi_tester.vi
+
+:imgpath: VITesterUtilities.lvlib_Get LV Class Members from Path__jki_vi_tester.vi.png
+image::{imgpath}[VITesterUtilities.lvlib:Get LV Class Members from Path__jki_vi_tester.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== VITesterUtilities.lvlib:Rename LVClass__jki_vi_tester.vi
+
+:imgpath: VITesterUtilities.lvlib_Rename LVClass__jki_vi_tester.vi.png
+image::{imgpath}[VITesterUtilities.lvlib:Rename LVClass__jki_vi_tester.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== VITesterUtilities.lvlib:Get Name Or Data Format As String__jki_vi_tester.vi
+
+:imgpath: VITesterUtilities.lvlib_Get Name Or Data Format As String__jki_vi_tester.vi.png
+image::{imgpath}[VITesterUtilities.lvlib:Get Name Or Data Format As String__jki_vi_tester.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== VITesterUtilities.lvlib:Get Class Inheritance from Class Path__jki_vi_tester.vi
+
+:imgpath: VITesterUtilities.lvlib_Get Class Inheritance from Class Path__jki_vi_tester.vi.png
+image::{imgpath}[VITesterUtilities.lvlib:Get Class Inheritance from Class Path__jki_vi_tester.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== VITesterUtilities.lvlib:Expand Pathroot__jki_vi_tester.vi
+
+:imgpath: VITesterUtilities.lvlib_Expand Pathroot__jki_vi_tester.vi.png
+image::{imgpath}[VITesterUtilities.lvlib:Expand Pathroot__jki_vi_tester.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== VITesterUtilities.lvlib:Convert Relative to Absolute Project Paths__jki_vi_tester.vi
+
+:imgpath: VITesterUtilities.lvlib_Convert Relative to Absolute Project Paths__jki_vi_tester.vi.png
+image::{imgpath}[VITesterUtilities.lvlib:Convert Relative to Absolute Project Paths__jki_vi_tester.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== VITesterUtilities.lvlib:Get VI Error Out Value__jki_vi_tester.vi
+
+:imgpath: VITesterUtilities.lvlib_Get VI Error Out Value__jki_vi_tester.vi.png
+image::{imgpath}[VITesterUtilities.lvlib:Get VI Error Out Value__jki_vi_tester.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== VITesterUtilities.lvlib:Get Activation Level__jki_vi_tester.vi
+
+:imgpath: VITesterUtilities.lvlib_Get Activation Level__jki_vi_tester.vi.png
+image::{imgpath}[VITesterUtilities.lvlib:Get Activation Level__jki_vi_tester.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== VITesterUtilities.lvlib:CheckForLabVIEW_IDE__jki_vi_tester.vi
+
+:imgpath: VITesterUtilities.lvlib_CheckForLabVIEW_IDE__jki_vi_tester.vi.png
+image::{imgpath}[VITesterUtilities.lvlib:CheckForLabVIEW_IDE__jki_vi_tester.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+=== Classes
+
+This section describes classes public VIs.
+
+==== Serial Device.lvclass
+
+===== Serial Device.lvclass:Read Marca.vi
+
+:imgpath: Serial Device.lvclass_Read Marca.vi.png
+image::{imgpath}[Serial Device.lvclass:Read Marca.vi]
+
+*Description:*
+++++
+This Vi is used to identify the microcontroller mark (marca) and help to know it
+++++
+
+===== Serial Device.lvclass:Write Marca.vi
+
+:imgpath: Serial Device.lvclass_Write Marca.vi.png
+image::{imgpath}[Serial Device.lvclass:Write Marca.vi]
+
+*Description:*
+++++
+This Vi is used to identify the microcontroller mark (marca), when its identified its update the code to generate the data depending the mark.  
+++++
+
+===== Serial Device.lvclass:Read VISA resource name.vi
+
+:imgpath: Serial Device.lvclass_Read VISA resource name.vi.png
+image::{imgpath}[Serial Device.lvclass:Read VISA resource name.vi]
+
+*Description:*
+++++
+This Vi is used to identify the VISA PORT
+++++
+
+===== Serial Device.lvclass:Write VISA resource name.vi
+
+:imgpath: Serial Device.lvclass_Write VISA resource name.vi.png
+image::{imgpath}[Serial Device.lvclass:Write VISA resource name.vi]
+
+*Description:*
+++++
+This Vi is used to write the VISA PORT from Vi Tester to The Main of the module
+++++
+
+===== Serial Device.lvclass:GET_1BIT_Command.vi
+
+:imgpath: Serial Device.lvclass_GET_1BIT_Command.vi.png
+image::{imgpath}[Serial Device.lvclass:GET_1BIT_Command.vi]
+
+*Description:*
+++++
+This Vi Generates the command of Read 1 Bit for each microcontroller 
+++++
+
+===== Serial Device.lvclass:GET_8BITS_Command.vi
+
+:imgpath: Serial Device.lvclass_GET_8BITS_Command.vi.png
+image::{imgpath}[Serial Device.lvclass:GET_8BITS_Command.vi]
+
+*Description:*
+++++
+This Vi Generates the command of Read 8 Bit for each microcontroller 
+++++
+
+===== Serial Device.lvclass:READ_ADC_Command.vi
+
+:imgpath: Serial Device.lvclass_READ_ADC_Command.vi.png
+image::{imgpath}[Serial Device.lvclass:READ_ADC_Command.vi]
+
+*Description:*
+++++
+This Vi Generates the command of Read ADC for each microcontroller 
+++++
+
+===== Serial Device.lvclass:SET_1BIT_Command.vi
+
+:imgpath: Serial Device.lvclass_SET_1BIT_Command.vi.png
+image::{imgpath}[Serial Device.lvclass:SET_1BIT_Command.vi]
+
+*Description:*
+++++
+This Vi Generates the command of Write 1 Bit for each microcontroller 
+++++
+
+===== Serial Device.lvclass:SET_8BITS_Command.vi
+
+:imgpath: Serial Device.lvclass_SET_8BITS_Command.vi.png
+image::{imgpath}[Serial Device.lvclass:SET_8BITS_Command.vi]
+
+*Description:*
+++++
+This Vi Generates the command of Write 8 Bit for each microcontroller 
+++++
+
+===== Serial Device.lvclass:Send_ADC.vi
+
+:imgpath: Serial Device.lvclass_Send_ADC.vi.png
+image::{imgpath}[Serial Device.lvclass:Send_ADC.vi]
+
+*Description:*
+++++
+This Vi Generates the sequece to send and receive the ADC from Microcontroller
+++++
+
+===== Serial Device.lvclass:Send_Get_1Bit.vi
+
+:imgpath: Serial Device.lvclass_Send_Get_1Bit.vi.png
+image::{imgpath}[Serial Device.lvclass:Send_Get_1Bit.vi]
+
+*Description:*
+++++
+This Vi Generates the sequece to send and receive the state of one switch from Microcontroller
+++++
+
+===== Serial Device.lvclass:Send_Get_8Bits.vi
+
+:imgpath: Serial Device.lvclass_Send_Get_8Bits.vi.png
+image::{imgpath}[Serial Device.lvclass:Send_Get_8Bits.vi]
+
+*Description:*
+++++
+This Vi Generates the sequece to send and receive the state of the eight switches from Microcontroller
+++++
+
+===== Serial Device.lvclass:Send_SET_1BIT.vi
+
+:imgpath: Serial Device.lvclass_Send_SET_1BIT.vi.png
+image::{imgpath}[Serial Device.lvclass:Send_SET_1BIT.vi]
+
+*Description:*
+++++
+This Vi Generates the sequece to send and receive the state of one of the outs from Microcontroller
+++++
+
+===== Serial Device.lvclass:Send_SET_8Bits.vi
+
+:imgpath: Serial Device.lvclass_Send_SET_8Bits.vi.png
+image::{imgpath}[Serial Device.lvclass:Send_SET_8Bits.vi]
+
+*Description:*
+++++
+This Vi Generates the sequece to send and receive the state of the outs from Microcontroller
+++++
+
+===== Serial Device.lvclass:Close_Connection.vi
+
+:imgpath: Serial Device.lvclass_Close_Connection.vi.png
+image::{imgpath}[Serial Device.lvclass:Close_Connection.vi]
+
+*Description:*
+++++
+This Vi close the connection with the Microcontroller. Its used when the interface is closed
+++++
+
+===== Serial Device.lvclass:Initialize.vi
+
+:imgpath: Serial Device.lvclass_Initialize.vi.png
+image::{imgpath}[Serial Device.lvclass:Initialize.vi]
+
+*Description:*
+++++
+This Vi initialize the connection with the Microcontroller. 
+++++
+
+===== Serial Device.lvclass:Base command.vi
+
+:imgpath: Serial Device.lvclass_Base command.vi.png
+image::{imgpath}[Serial Device.lvclass:Base command.vi]
+
+*Description:*
+++++
+This Vi is the core command of each template command generator
+++++
+
+===== Serial Device.lvclass:Build_G_Command.vit
+
+:imgpath: Serial Device.lvclass_Build_G_Command.vit.png
+image::{imgpath}[Serial Device.lvclass:Build_G_Command.vit]
+
+*Description:*
+++++
+Template to generate commands
+++++
+
+===== Serial Device.lvclass:Build_G_Send_Execute_Command.vit
+
+:imgpath: Serial Device.lvclass_Build_G_Send_Execute_Command.vit.png
+image::{imgpath}[Serial Device.lvclass:Build_G_Send_Execute_Command.vit]
+
+*Description:*
+++++
+Template to generate execute commands
+++++
+
+==== NXP.lvclass
+
+===== NXP.lvclass:Close_Connection.vi
+
+:imgpath: NXP.lvclass_Close_Connection.vi.png
+image::{imgpath}[NXP.lvclass:Close_Connection.vi]
+
+*Description:*
+++++
+Close the connection with the NXP MCU
+++++
+
+===== NXP.lvclass:Initialize.vi
+
+:imgpath: NXP.lvclass_Initialize.vi.png
+image::{imgpath}[NXP.lvclass:Initialize.vi]
+
+*Description:*
+++++
+Initialize the connection with the NXP MCU
+++++
+
+===== NXP.lvclass:Ejemplo de aplicacion nxp.vi
+
+:imgpath: NXP.lvclass_Ejemplo de aplicacion nxp.vi.png
+image::{imgpath}[NXP.lvclass:Ejemplo de aplicacion nxp.vi]
+
+*Description:*
+++++
+Vi created to probe the nxp module out of the main. "Its not necessary to the develop"
+++++
+
+==== Simulated uC.lvclass
+
+===== Simulated uC.lvclass:Read Simulated Command.vi
+
+:imgpath: Simulated uC.lvclass_Read Simulated Command.vi.png
+image::{imgpath}[Simulated uC.lvclass:Read Simulated Command.vi]
+
+*Description:*
+++++
+This Vi read the simulated command in the private date
+++++
+
+===== Simulated uC.lvclass:Write Simulated Command.vi
+
+:imgpath: Simulated uC.lvclass_Write Simulated Command.vi.png
+image::{imgpath}[Simulated uC.lvclass:Write Simulated Command.vi]
+
+*Description:*
+++++
+This Vi write the simulated command in the private date
+++++
+
+===== Simulated uC.lvclass:Send_ADC.vi
+
+:imgpath: Simulated uC.lvclass_Send_ADC.vi.png
+image::{imgpath}[Simulated uC.lvclass:Send_ADC.vi]
+
+*Description:*
+++++
+This Vi its different than the Send ADC of the father. This Vi Generate the code to obtain the adc precharged data
+++++
+
+===== Simulated uC.lvclass:Send_Get_1Bit.vi
+
+:imgpath: Simulated uC.lvclass_Send_Get_1Bit.vi.png
+image::{imgpath}[Simulated uC.lvclass:Send_Get_1Bit.vi]
+
+*Description:*
+++++
+This Vi its different than the Send Get_1BIT of the father. This Vi Generate the code to obtain Switches precharged data
+++++
+
+===== Simulated uC.lvclass:Send_Get_8Bits.vi
+
+:imgpath: Simulated uC.lvclass_Send_Get_8Bits.vi.png
+image::{imgpath}[Simulated uC.lvclass:Send_Get_8Bits.vi]
+
+*Description:*
+++++
+This Vi its different than the Send Get_8BIT of the father. This Vi Generate the code to obtain Switches precharged data
+++++
+
+===== Simulated uC.lvclass:Send_SET_1BIT.vi
+
+:imgpath: Simulated uC.lvclass_Send_SET_1BIT.vi.png
+image::{imgpath}[Simulated uC.lvclass:Send_SET_1BIT.vi]
+
+*Description:*
+++++
+This Vi its different than the Send Set_1BIT of the father. This Vi Generate the code to aquiere out precharged data
+++++
+
+===== Simulated uC.lvclass:Send_SET_8Bits.vi
+
+:imgpath: Simulated uC.lvclass_Send_SET_8Bits.vi.png
+image::{imgpath}[Simulated uC.lvclass:Send_SET_8Bits.vi]
+
+*Description:*
+++++
+This Vi its different than the Send Set_8BIT of the father. This Vi Generate the code to aquiere out precharged data
+++++
+
+===== Simulated uC.lvclass:Close_Connection.vi
+
+:imgpath: Simulated uC.lvclass_Close_Connection.vi.png
+image::{imgpath}[Simulated uC.lvclass:Close_Connection.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== Simulated uC.lvclass:Initialize.vi
+
+:imgpath: Simulated uC.lvclass_Initialize.vi.png
+image::{imgpath}[Simulated uC.lvclass:Initialize.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+==== Cypress.lvclass
+
+===== Cypress.lvclass:Close_Connection.vi
+
+:imgpath: Cypress.lvclass_Close_Connection.vi.png
+image::{imgpath}[Cypress.lvclass:Close_Connection.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== Cypress.lvclass:Initialize.vi
+
+:imgpath: Cypress.lvclass_Initialize.vi.png
+image::{imgpath}[Cypress.lvclass:Initialize.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+==== tests_actions.lvclass
+
+===== tests_actions.lvclass:setUp.vi
+
+:imgpath: tests_actions.lvclass_setUp.vi.png
+image::{imgpath}[tests_actions.lvclass:setUp.vi]
+
+*Description:*
+++++
+setUp runs prior to the test method during test execution.  Use this method to initialize any object data required by your tests.
+++++
+
+===== tests_actions.lvclass:tearDown.vi
+
+:imgpath: tests_actions.lvclass_tearDown.vi.png
+image::{imgpath}[tests_actions.lvclass:tearDown.vi]
+
+*Description:*
+++++
+tearDown runs after the test method has completed.  Use this method to clean up any operations or references that were opened by setUp or the test method.  Unit tests should be independent of other unit tests so this VI should ensure that the next test can run in a 'clean' test environment.
+++++
+
+===== tests_actions.lvclass:testExample.vit
+
+:imgpath: tests_actions.lvclass_testExample.vit.png
+image::{imgpath}[tests_actions.lvclass:testExample.vit]
+
+*Description:*
+++++
+Template to generate a test vi, this makes easier the job to test 
+++++
+
+===== tests_actions.lvclass:temp_VI_UnderTest.vi
+
+:imgpath: tests_actions.lvclass_temp_VI_UnderTest.vi.png
+image::{imgpath}[tests_actions.lvclass:temp_VI_UnderTest.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== tests_actions.lvclass:Test General each Comand Response.vi
+
+:imgpath: tests_actions.lvclass_Test General each Comand Response.vi.png
+image::{imgpath}[tests_actions.lvclass:Test General each Comand Response.vi]
+
+*Description:*
+++++
+Test of each command of simulated commands and their respective responses
+++++
+
+==== Delacor_lib_QMH_Cloneable Module Admin.lvclass
+
+===== Delacor_lib_QMH_Cloneable Module Admin.lvclass:Delacor_lib_QMH_Get Close Master Reference.vi
+
+:imgpath: Delacor_lib_QMH_Cloneable Module Admin.lvclass_Delacor_lib_QMH_Get Close Master Reference.vi.png
+image::{imgpath}[Delacor_lib_QMH_Cloneable Module Admin.lvclass:Delacor_lib_QMH_Get Close Master Reference.vi]
+
+*Description:*
+++++
+Specifies whether or not the master VI reference used for launching clones should be closed by the Close Module VI when the cloneable module is shutting down.
+____
+Delacor QMH Palette 5.0.0.7
+Copyright (c) 2020, Delacor
+++++
+
+===== Delacor_lib_QMH_Cloneable Module Admin.lvclass:Delacor_lib_QMH_Set Close Master Reference.vi
+
+:imgpath: Delacor_lib_QMH_Cloneable Module Admin.lvclass_Delacor_lib_QMH_Set Close Master Reference.vi.png
+image::{imgpath}[Delacor_lib_QMH_Cloneable Module Admin.lvclass:Delacor_lib_QMH_Set Close Master Reference.vi]
+
+*Description:*
+++++
+Specifies whether or not the master VI reference used for launching clones should be closed by the Close Module VI when the cloneable module is shutting down.
+____
+Delacor QMH Palette 5.0.0.7
+Copyright (c) 2020, Delacor
+++++
+
+===== Delacor_lib_QMH_Cloneable Module Admin.lvclass:Delacor_lib_QMH_Get First.vi
+
+:imgpath: Delacor_lib_QMH_Cloneable Module Admin.lvclass_Delacor_lib_QMH_Get First.vi.png
+image::{imgpath}[Delacor_lib_QMH_Cloneable Module Admin.lvclass:Delacor_lib_QMH_Get First.vi]
+
+*Description:*
+++++
+Specifies whether or not this clone is the first one that was launched.
+____
+Delacor QMH Palette 5.0.0.7
+Copyright (c) 2020, Delacor
+++++
+
+===== Delacor_lib_QMH_Cloneable Module Admin.lvclass:Delacor_lib_QMH_Set First.vi
+
+:imgpath: Delacor_lib_QMH_Cloneable Module Admin.lvclass_Delacor_lib_QMH_Set First.vi.png
+image::{imgpath}[Delacor_lib_QMH_Cloneable Module Admin.lvclass:Delacor_lib_QMH_Set First.vi]
+
+*Description:*
+++++
+Specifies whether or not this clone is the first one that was launched.
+____
+Delacor QMH Palette 5.0.0.7
+Copyright (c) 2020, Delacor
+++++
+
+===== Delacor_lib_QMH_Cloneable Module Admin.lvclass:Delacor_lib_QMH_Get Module ID.vi
+
+:imgpath: Delacor_lib_QMH_Cloneable Module Admin.lvclass_Delacor_lib_QMH_Get Module ID.vi.png
+image::{imgpath}[Delacor_lib_QMH_Cloneable Module Admin.lvclass:Delacor_lib_QMH_Get Module ID.vi]
+
+*Description:*
+++++
+The numeric identifier of a running instance of a cloneable module. If the module is running as a singleton, the value will be 0.
+____
+Delacor QMH Palette 5.0.0.7
+Copyright (c) 2020, Delacor
+++++
+
+===== Delacor_lib_QMH_Cloneable Module Admin.lvclass:Delacor_lib_QMH_Set Module ID.vi
+
+:imgpath: Delacor_lib_QMH_Cloneable Module Admin.lvclass_Delacor_lib_QMH_Set Module ID.vi.png
+image::{imgpath}[Delacor_lib_QMH_Cloneable Module Admin.lvclass:Delacor_lib_QMH_Set Module ID.vi]
+
+*Description:*
+++++
+The numeric identifier of a running instance of a cloneable module. If the module is running as a singleton, the value will be 0.
+____
+Delacor QMH Palette 5.0.0.7
+Copyright (c) 2020, Delacor
+++++
+
+===== Delacor_lib_QMH_Cloneable Module Admin.lvclass:Delacor_lib_QMH_Cloneable Admin Class--constant.vi
+
+:imgpath: Delacor_lib_QMH_Cloneable Module Admin.lvclass_Delacor_lib_QMH_Cloneable Admin Class--constant.vi.png
+image::{imgpath}[Delacor_lib_QMH_Cloneable Module Admin.lvclass:Delacor_lib_QMH_Cloneable Admin Class--constant.vi]
+
+*Description:*
+++++
+
+____
+Delacor QMH Palette 5.0.0.7
+Copyright (c) 2020, Delacor
+++++
+
+===== Delacor_lib_QMH_Cloneable Module Admin.lvclass:Delacor_lib_QMH_Cloneable Admin Class--control.vi
+
+:imgpath: Delacor_lib_QMH_Cloneable Module Admin.lvclass_Delacor_lib_QMH_Cloneable Admin Class--control.vi.png
+image::{imgpath}[Delacor_lib_QMH_Cloneable Module Admin.lvclass:Delacor_lib_QMH_Cloneable Admin Class--control.vi]
+
+*Description:*
+++++
+
+____
+Delacor QMH Palette 5.0.0.7
+Copyright (c) 2020, Delacor
+++++
+
+===== Delacor_lib_QMH_Cloneable Module Admin.lvclass:Delacor_lib_QMH_Reset.vi
+
+:imgpath: Delacor_lib_QMH_Cloneable Module Admin.lvclass_Delacor_lib_QMH_Reset.vi.png
+image::{imgpath}[Delacor_lib_QMH_Cloneable Module Admin.lvclass:Delacor_lib_QMH_Reset.vi]
+
+*Description:*
+++++
+
+____
+Delacor QMH Palette 5.0.0.7
+Copyright (c) 2020, Delacor
+++++
+
+==== Delacor_lib_QMH_Module Admin.lvclass
+
+===== Delacor_lib_QMH_Module Admin.lvclass:Delacor_lib_QMH_Get External Launch.vi
+
+:imgpath: Delacor_lib_QMH_Module Admin.lvclass_Delacor_lib_QMH_Get External Launch.vi.png
+image::{imgpath}[Delacor_lib_QMH_Module Admin.lvclass:Delacor_lib_QMH_Get External Launch.vi]
+
+*Description:*
+++++
+
+____
+Delacor QMH Palette 5.0.0.7
+Copyright (c) 2020, Delacor
+++++
+
+===== Delacor_lib_QMH_Module Admin.lvclass:Delacor_lib_QMH_Set External Launch.vi
+
+:imgpath: Delacor_lib_QMH_Module Admin.lvclass_Delacor_lib_QMH_Set External Launch.vi.png
+image::{imgpath}[Delacor_lib_QMH_Module Admin.lvclass:Delacor_lib_QMH_Set External Launch.vi]
+
+*Description:*
+++++
+
+____
+Delacor QMH Palette 5.0.0.7
+Copyright (c) 2020, Delacor
+++++
+
+===== Delacor_lib_QMH_Module Admin.lvclass:Delacor_lib_QMH_Admin Class--constant.vi
+
+:imgpath: Delacor_lib_QMH_Module Admin.lvclass_Delacor_lib_QMH_Admin Class--constant.vi.png
+image::{imgpath}[Delacor_lib_QMH_Module Admin.lvclass:Delacor_lib_QMH_Admin Class--constant.vi]
+
+*Description:*
+++++
+
+____
+Delacor QMH Palette 5.0.0.7
+Copyright (c) 2020, Delacor
+++++
+
+===== Delacor_lib_QMH_Module Admin.lvclass:Delacor_lib_QMH_Admin Class--control.vi
+
+:imgpath: Delacor_lib_QMH_Module Admin.lvclass_Delacor_lib_QMH_Admin Class--control.vi.png
+image::{imgpath}[Delacor_lib_QMH_Module Admin.lvclass:Delacor_lib_QMH_Admin Class--control.vi]
+
+*Description:*
+++++
+
+____
+Delacor QMH Palette 5.0.0.7
+Copyright (c) 2020, Delacor
+++++
+
+===== Delacor_lib_QMH_Module Admin.lvclass:Delacor_lib_QMH_Reset.vi
+
+:imgpath: Delacor_lib_QMH_Module Admin.lvclass_Delacor_lib_QMH_Reset.vi.png
+image::{imgpath}[Delacor_lib_QMH_Module Admin.lvclass:Delacor_lib_QMH_Reset.vi]
+
+*Description:*
+++++
+
+____
+Delacor QMH Palette 5.0.0.7
+Copyright (c) 2020, Delacor
+++++
+
+==== Delacor_lib_QMH_Message Queue.lvclass
+
+===== Delacor_lib_QMH_Message Queue.lvclass:Delacor_lib_QMH_Check Loop Error.vi
+
+:imgpath: Delacor_lib_QMH_Message Queue.lvclass_Delacor_lib_QMH_Check Loop Error.vi.png
+image::{imgpath}[Delacor_lib_QMH_Message Queue.lvclass:Delacor_lib_QMH_Check Loop Error.vi]
+
+*Description:*
+++++
+Check the 'error to process' to see if its code value matches any of the values in the 'Ignore Errors' array. If so, do nothing. If not, send an "Error" message containing the error data to the Message Handling Loop for further processing.
+____
+Delacor QMH Palette 5.0.0.7
+Copyright (c) 2020, Delacor
+++++
+
+===== Delacor_lib_QMH_Message Queue.lvclass:Delacor_lib_QMH_Error Handler - Event Handling Loop.vi
+
+:imgpath: Delacor_lib_QMH_Message Queue.lvclass_Delacor_lib_QMH_Error Handler - Event Handling Loop.vi.png
+image::{imgpath}[Delacor_lib_QMH_Message Queue.lvclass:Delacor_lib_QMH_Error Handler - Event Handling Loop.vi]
+
+*Description:*
+++++
+Process an error that occurred in the Event Handling Loop, either by ignoring it, or generating an "Error" message.
+____
+Delacor QMH Palette 5.0.0.7
+Copyright (c) 2020, Delacor
+++++
+
+===== Delacor_lib_QMH_Message Queue.lvclass:Delacor_lib_QMH_Error Handler - Message Handling Loop.vi
+
+:imgpath: Delacor_lib_QMH_Message Queue.lvclass_Delacor_lib_QMH_Error Handler - Message Handling Loop.vi.png
+image::{imgpath}[Delacor_lib_QMH_Message Queue.lvclass:Delacor_lib_QMH_Error Handler - Message Handling Loop.vi]
+
+*Description:*
+++++
+Process an error that occurred in the Message Handling Loop, either by ignoring it, or generating an "Error" message.
+____
+Delacor QMH Palette 5.0.0.7
+Copyright (c) 2020, Delacor
+++++
+
+===== Delacor_lib_QMH_Message Queue.lvclass:Delacor_lib_QMH_Create Message Queue.vi
+
+:imgpath: Delacor_lib_QMH_Message Queue.lvclass_Delacor_lib_QMH_Create Message Queue.vi.png
+image::{imgpath}[Delacor_lib_QMH_Message Queue.lvclass:Delacor_lib_QMH_Create Message Queue.vi]
+
+*Description:*
+++++
+This VI creates and initializes the message queue for a QMH Module. 
+If the message needs to be different for the given module, then create a child class of Message Queue and override the appropriate methods.
+____
+Delacor QMH Palette 5.0.0.7
+Copyright (c) 2020, Delacor
+++++
+
+===== Delacor_lib_QMH_Message Queue.lvclass:Delacor_lib_QMH_Dequeue Message.vi
+
+:imgpath: Delacor_lib_QMH_Message Queue.lvclass_Delacor_lib_QMH_Dequeue Message.vi.png
+image::{imgpath}[Delacor_lib_QMH_Message Queue.lvclass:Delacor_lib_QMH_Dequeue Message.vi]
+
+*Description:*
+++++
+This VI pulls messages off the Message Queue.
+____
+Delacor QMH Palette 5.0.0.7
+Copyright (c) 2020, Delacor
+++++
+
+===== Delacor_lib_QMH_Message Queue.lvclass:Delacor_lib_QMH_Flush Messages.vi
+
+:imgpath: Delacor_lib_QMH_Message Queue.lvclass_Delacor_lib_QMH_Flush Messages.vi.png
+image::{imgpath}[Delacor_lib_QMH_Message Queue.lvclass:Delacor_lib_QMH_Flush Messages.vi]
+
+*Description:*
+++++
+Flush the message queue.
+____
+Delacor QMH Palette 5.0.0.7
+Copyright (c) 2020, Delacor
+++++
+
+===== Delacor_lib_QMH_Message Queue.lvclass:Delacor_lib_QMH_Release Message Queue.vi
+
+:imgpath: Delacor_lib_QMH_Message Queue.lvclass_Delacor_lib_QMH_Release Message Queue.vi.png
+image::{imgpath}[Delacor_lib_QMH_Message Queue.lvclass:Delacor_lib_QMH_Release Message Queue.vi]
+
+*Description:*
+++++
+Release the message queue.
+____
+Delacor QMH Palette 5.0.0.7
+Copyright (c) 2020, Delacor
+++++
+
+==== TestCase.lvclass
+
+===== TestCase.lvclass:globalSetUp.vi
+
+:imgpath: TestCase.lvclass_globalSetUp.vi.png
+image::{imgpath}[TestCase.lvclass:globalSetUp.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== TestCase.lvclass:TestCase_Init.vi
+
+:imgpath: TestCase.lvclass_TestCase_Init.vi.png
+image::{imgpath}[TestCase.lvclass:TestCase_Init.vi]
+
+*Description:*
+++++
+Initialize a TestCase object with methodName.  methodName is the test method VI name (without .vi extension).
+
+This VI should be called whenever a new TestCase object is needed such as during TestSuite.New method calls.
+++++
+
+===== TestCase.lvclass:CleanUp.vi
+
+:imgpath: TestCase.lvclass_CleanUp.vi.png
+image::{imgpath}[TestCase.lvclass:CleanUp.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== TestCase.lvclass:countTestCases.vi
+
+:imgpath: TestCase.lvclass_countTestCases.vi.png
+image::{imgpath}[TestCase.lvclass:countTestCases.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== TestCase.lvclass:defaultTestResult.vi
+
+:imgpath: TestCase.lvclass_defaultTestResult.vi.png
+image::{imgpath}[TestCase.lvclass:defaultTestResult.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== TestCase.lvclass:shortDescription.vi
+
+:imgpath: TestCase.lvclass_shortDescription.vi.png
+image::{imgpath}[TestCase.lvclass:shortDescription.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== TestCase.lvclass:id.vi
+
+:imgpath: TestCase.lvclass_id.vi.png
+image::{imgpath}[TestCase.lvclass:id.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== TestCase.lvclass:run.vi
+
+:imgpath: TestCase.lvclass_run.vi.png
+image::{imgpath}[TestCase.lvclass:run.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== TestCase.lvclass:debug.vi
+
+:imgpath: TestCase.lvclass_debug.vi.png
+image::{imgpath}[TestCase.lvclass:debug.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== TestCase.lvclass:fail.vi
+
+:imgpath: TestCase.lvclass_fail.vi.png
+image::{imgpath}[TestCase.lvclass:fail.vi]
+
+*Description:*
+++++
+Force TestCase in to fail.  'Message' is appended to failure status.
+++++
+
+===== TestCase.lvclass:failIf.vi
+
+:imgpath: TestCase.lvclass_failIf.vi.png
+image::{imgpath}[TestCase.lvclass:failIf.vi]
+
+*Description:*
+++++
+Fail if 'fail' condition is TRUE.  On failure, 'message' is appended to failure status.
+++++
+
+===== TestCase.lvclass:failUnless.vi
+
+:imgpath: TestCase.lvclass_failUnless.vi.png
+image::{imgpath}[TestCase.lvclass:failUnless.vi]
+
+*Description:*
+++++
+{Obsolete - kept for compatiblity only}
+
+Fail if 'pass' condition is FALSE.  On failure, 'message' is appended to failure status.
+++++
+
+===== TestCase.lvclass:failUnlessError.vi
+
+:imgpath: TestCase.lvclass_failUnlessError.vi.png
+image::{imgpath}[TestCase.lvclass:failUnlessError.vi]
+
+*Description:*
+++++
+{Obsolete - kept for compatiblity only}
+
+Fail if 'error.status'=FALSE.  'error' is the error generated by the task.  'task' is the description of the task failure.  'error in' is for framework errors not related to the test task.
+++++
+
+===== TestCase.lvclass:failUnlessEqual.vi
+
+:imgpath: TestCase.lvclass_failUnlessEqual.vi.png
+image::{imgpath}[TestCase.lvclass:failUnlessEqual.vi]
+
+*Description:*
+++++
+{Obsolete - kept for compatiblity only}
+
+Fail test if 'x' != 'y'.  'delta (optional)' if specified must be a numeric format and forces 'x', 'y' to be numeric.  If 'delta' is not specified, x,y can be any variant data.
+++++
+
+===== TestCase.lvclass:failIfEqual.vi
+
+:imgpath: TestCase.lvclass_failIfEqual.vi.png
+image::{imgpath}[TestCase.lvclass:failIfEqual.vi]
+
+*Description:*
+++++
+Fail test if 'x' = 'y'.  'delta (optional)' if specified must be a numeric format and forces 'x', 'y' to be numeric.  If 'delta' is not specified, x,y can be any variant data.
+++++
+
+===== TestCase.lvclass:str.vi
+
+:imgpath: TestCase.lvclass_str.vi.png
+image::{imgpath}[TestCase.lvclass:str.vi]
+
+*Description:*
+++++
+method name[tab]class name
+++++
+
+===== TestCase.lvclass:TestCase_ShellInit.vi
+
+:imgpath: TestCase.lvclass_TestCase_ShellInit.vi.png
+image::{imgpath}[TestCase.lvclass:TestCase_ShellInit.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== TestCase.lvclass:CheckPassFailOutputs.vi
+
+:imgpath: TestCase.lvclass_CheckPassFailOutputs.vi.png
+image::{imgpath}[TestCase.lvclass:CheckPassFailOutputs.vi]
+
+*Description:*
+++++
+Checks for Pass and Fail indicators.  If either or both is found then check their status to determine if test passed or failed.
+++++
+
+===== TestCase.lvclass:skip.vi
+
+:imgpath: TestCase.lvclass_skip.vi.png
+image::{imgpath}[TestCase.lvclass:skip.vi]
+
+*Description:*
+++++
+If called within a running test, it will signal to the Test Runner that the test was skipped.  If called before a test is actually run, it will causes the test to be skipped (and not actually run).   
+
+skipMessage can be used to document a reason the test was skipped during test execution.
+++++
+
+===== TestCase.lvclass:listAllTestMethods.vi
+
+:imgpath: TestCase.lvclass_listAllTestMethods.vi.png
+image::{imgpath}[TestCase.lvclass:listAllTestMethods.vi]
+
+*Description:*
+++++
+List all test methods that are members of the current TestCase class.
+++++
+
+===== TestCase.lvclass:passIf.vi
+
+:imgpath: TestCase.lvclass_passIf.vi.png
+image::{imgpath}[TestCase.lvclass:passIf.vi]
+
+*Description:*
+++++
+Pass if 'pass' condition is TRUE.  On failure, 'message' is appended to failure status.
+++++
+
+===== TestCase.lvclass:passIfError.vi
+
+:imgpath: TestCase.lvclass_passIfError.vi.png
+image::{imgpath}[TestCase.lvclass:passIfError.vi]
+
+*Description:*
+++++
+Pass if 'error.status'=TRUE.  'error' is the error generated by the task.  'task' is the description of the task failure.  'error in' is for framework errors not related to the test task.  'passing error codes' can be used to define specific error codes that will cause the test to pass so that unexpected errors are still raised as test failures.
+
+Use this method when you want to test that an expected error is correctly raised.
+++++
+
+===== TestCase.lvclass:passIfEqual.vi
+
+:imgpath: TestCase.lvclass_passIfEqual.vi.png
+image::{imgpath}[TestCase.lvclass:passIfEqual.vi]
+
+*Description:*
+++++
+Pass test if 'x' = 'y'.  'delta (optional)' if specified must be a numeric format and forces 'x', 'y' to be numeric.  If 'delta' is not specified, x,y can be any variant data.
+++++
+
+===== TestCase.lvclass:getSkipMessage.vi
+
+:imgpath: TestCase.lvclass_getSkipMessage.vi.png
+image::{imgpath}[TestCase.lvclass:getSkipMessage.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== TestCase.lvclass:getCustomReportText.vi
+
+:imgpath: TestCase.lvclass_getCustomReportText.vi.png
+image::{imgpath}[TestCase.lvclass:getCustomReportText.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== TestCase.lvclass:globalTearDown.vi
+
+:imgpath: TestCase.lvclass_globalTearDown.vi.png
+image::{imgpath}[TestCase.lvclass:globalTearDown.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+==== TestResult.lvclass
+
+===== TestResult.lvclass:TestResult_Init.vi
+
+:imgpath: TestResult.lvclass_TestResult_Init.vi.png
+image::{imgpath}[TestResult.lvclass:TestResult_Init.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== TestResult.lvclass:CleanUp.vi
+
+:imgpath: TestResult.lvclass_CleanUp.vi.png
+image::{imgpath}[TestResult.lvclass:CleanUp.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== TestResult.lvclass:startTest.vi
+
+:imgpath: TestResult.lvclass_startTest.vi.png
+image::{imgpath}[TestResult.lvclass:startTest.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== TestResult.lvclass:stopTest.vi
+
+:imgpath: TestResult.lvclass_stopTest.vi.png
+image::{imgpath}[TestResult.lvclass:stopTest.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== TestResult.lvclass:addError.vi
+
+:imgpath: TestResult.lvclass_addError.vi.png
+image::{imgpath}[TestResult.lvclass:addError.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== TestResult.lvclass:addFailure.vi
+
+:imgpath: TestResult.lvclass_addFailure.vi.png
+image::{imgpath}[TestResult.lvclass:addFailure.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== TestResult.lvclass:addSuccess.vi
+
+:imgpath: TestResult.lvclass_addSuccess.vi.png
+image::{imgpath}[TestResult.lvclass:addSuccess.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== TestResult.lvclass:wasSuccessful.vi
+
+:imgpath: TestResult.lvclass_wasSuccessful.vi.png
+image::{imgpath}[TestResult.lvclass:wasSuccessful.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== TestResult.lvclass:stop.vi
+
+:imgpath: TestResult.lvclass_stop.vi.png
+image::{imgpath}[TestResult.lvclass:stop.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== TestResult.lvclass:getShouldStop.vi
+
+:imgpath: TestResult.lvclass_getShouldStop.vi.png
+image::{imgpath}[TestResult.lvclass:getShouldStop.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== TestResult.lvclass:GetTestsRun.vi
+
+:imgpath: TestResult.lvclass_GetTestsRun.vi.png
+image::{imgpath}[TestResult.lvclass:GetTestsRun.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== TestResult.lvclass:GetErrors.vi
+
+:imgpath: TestResult.lvclass_GetErrors.vi.png
+image::{imgpath}[TestResult.lvclass:GetErrors.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== TestResult.lvclass:GetFailures.vi
+
+:imgpath: TestResult.lvclass_GetFailures.vi.png
+image::{imgpath}[TestResult.lvclass:GetFailures.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== TestResult.lvclass:addSkipped.vi
+
+:imgpath: TestResult.lvclass_addSkipped.vi.png
+image::{imgpath}[TestResult.lvclass:addSkipped.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== TestResult.lvclass:GetSkipped.vi
+
+:imgpath: TestResult.lvclass_GetSkipped.vi.png
+image::{imgpath}[TestResult.lvclass:GetSkipped.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+==== TestSuite.lvclass
+
+===== TestSuite.lvclass:TestSuite_Init.vi
+
+:imgpath: TestSuite.lvclass_TestSuite_Init.vi.png
+image::{imgpath}[TestSuite.lvclass:TestSuite_Init.vi]
+
+*Description:*
+++++
+Initialize a TestSuite object with 'tests'. Tests are TestCase and/or TestSuite objects that have been initialized.
+
+This method should be called inside of any instance of TestSuite.New method after the TestSuite test objects are created.
+++++
+
+===== TestSuite.lvclass:CleanUp.vi
+
+:imgpath: TestSuite.lvclass_CleanUp.vi.png
+image::{imgpath}[TestSuite.lvclass:CleanUp.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== TestSuite.lvclass:countTestCases.vi
+
+:imgpath: TestSuite.lvclass_countTestCases.vi.png
+image::{imgpath}[TestSuite.lvclass:countTestCases.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== TestSuite.lvclass:addTest.vi
+
+:imgpath: TestSuite.lvclass_addTest.vi.png
+image::{imgpath}[TestSuite.lvclass:addTest.vi]
+
+*Description:*
+++++
+Adds a 'test' to a TestSuite object.  'test' can be a TestCase or TestSuite object.
+++++
+
+===== TestSuite.lvclass:addTests.vi
+
+:imgpath: TestSuite.lvclass_addTests.vi.png
+image::{imgpath}[TestSuite.lvclass:addTests.vi]
+
+*Description:*
+++++
+Adds 'tests' to testSuite.  'tests' can be testCase or testSuite objects (can be mixed).
+++++
+
+===== TestSuite.lvclass:run.vi
+
+:imgpath: TestSuite.lvclass_run.vi.png
+image::{imgpath}[TestSuite.lvclass:run.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== TestSuite.lvclass:GetTests.vi
+
+:imgpath: TestSuite.lvclass_GetTests.vi.png
+image::{imgpath}[TestSuite.lvclass:GetTests.vi]
+
+*Description:*
+++++
+Gets the test members of testSuite.  'tests' can be testCase or testSuite objects (can be mixed).
+++++
+
+===== TestSuite.lvclass:CallVirtualConstructorMethod.vi
+
+:imgpath: TestSuite.lvclass_CallVirtualConstructorMethod.vi.png
+image::{imgpath}[TestSuite.lvclass:CallVirtualConstructorMethod.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== TestSuite.lvclass:GetDescription.vi
+
+:imgpath: TestSuite.lvclass_GetDescription.vi.png
+image::{imgpath}[TestSuite.lvclass:GetDescription.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== TestSuite.lvclass:id.vi
+
+:imgpath: TestSuite.lvclass_id.vi.png
+image::{imgpath}[TestSuite.lvclass:id.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== TestSuite.lvclass:skip.vi
+
+:imgpath: TestSuite.lvclass_skip.vi.png
+image::{imgpath}[TestSuite.lvclass:skip.vi]
+
+*Description:*
+++++
+Causes TestSuite to be skipped (and not actually run).
+++++
+
+===== TestSuite.lvclass:getSkipMessage.vi
+
+:imgpath: TestSuite.lvclass_getSkipMessage.vi.png
+image::{imgpath}[TestSuite.lvclass:getSkipMessage.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== TestSuite.lvclass:SetTests.vi
+
+:imgpath: TestSuite.lvclass_SetTests.vi.png
+image::{imgpath}[TestSuite.lvclass:SetTests.vi]
+
+*Description:*
+++++
+Sets the test members of testSuite.  'tests' can be testCase or testSuite objects (can be mixed).  Note that this method should only be called after the 'Test Cases' have been created.  Expected usage for this method is in TestSuite.setUp where a developer may need to call TestSuite.GetTests to get test objects and potentially modify test data and then call TestSuite.SetTests to replace the test objects.  Be careful when using this method to ensure that existing Test object data used by framework is not lost or unexpected results are possible.
+++++
+
+==== TestLoader.lvclass
+
+===== TestLoader.lvclass:TestLoader_Init.vi
+
+:imgpath: TestLoader.lvclass_TestLoader_Init.vi.png
+image::{imgpath}[TestLoader.lvclass:TestLoader_Init.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== TestLoader.lvclass:CleanUp.vi
+
+:imgpath: TestLoader.lvclass_CleanUp.vi.png
+image::{imgpath}[TestLoader.lvclass:CleanUp.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== TestLoader.lvclass:loadTestsFromTestCase.vi
+
+:imgpath: TestLoader.lvclass_loadTestsFromTestCase.vi.png
+image::{imgpath}[TestLoader.lvclass:loadTestsFromTestCase.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== TestLoader.lvclass:loadTest.vi
+
+:imgpath: TestLoader.lvclass_loadTest.vi.png
+image::{imgpath}[TestLoader.lvclass:loadTest.vi]
+
+*Description:*
+++++
+This VI runs a specified test method
+++++
+
+===== TestLoader.lvclass:loadTestsFromTestCases.vi
+
+:imgpath: TestLoader.lvclass_loadTestsFromTestCases.vi.png
+image::{imgpath}[TestLoader.lvclass:loadTestsFromTestCases.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== TestLoader.lvclass:getTestsFromTestCase.vi
+
+:imgpath: TestLoader.lvclass_getTestsFromTestCase.vi.png
+image::{imgpath}[TestLoader.lvclass:getTestsFromTestCase.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== TestLoader.lvclass:getTestsFromTestCaseByClassPath.vi
+
+:imgpath: TestLoader.lvclass_getTestsFromTestCaseByClassPath.vi.png
+image::{imgpath}[TestLoader.lvclass:getTestsFromTestCaseByClassPath.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== TestLoader.lvclass:loadTestsFromTestTag.vi
+
+:imgpath: TestLoader.lvclass_loadTestsFromTestTag.vi.png
+image::{imgpath}[TestLoader.lvclass:loadTestsFromTestTag.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== TestLoader.lvclass:getTestsFromTestCaseObject.vi
+
+:imgpath: TestLoader.lvclass_getTestsFromTestCaseObject.vi.png
+image::{imgpath}[TestLoader.lvclass:getTestsFromTestCaseObject.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+== Legal Information
+
+=== Document creation
+
+This document has been generated using the following tools.
+
+==== Antidoc
+
+Project website: https://wovalab.gitlab.io/open-source/labview-doc-generator/[Antidoc] 
+
+Maintainer website: https://wovalab.com[Wovalab] 
+
+BSD 3-Clause License
+
+Copyright (C) 2019, Wovalab,
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this
+  list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+
+* Neither the name of the copyright holder nor the names of its
+  contributors may be used to endorse or promote products derived from
+  this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+==== Asciidoc for LabVIEW(TM)
+
+Project website: https://wovalab.gitlab.io/open-source/asciidoc-toolkit/[Asciidoc toolkit] 
+
+Maintainer website: https://wovalab.com[Wovalab] 
+
+BSD 3-Clause License
+
+Copyright (C) 2019, Wovalab,
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this
+  list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+
+* Neither the name of the copyright holder nor the names of its
+  contributors may be used to endorse or promote products derived from
+  this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+==== Graph Builder
+
+Project website: https://gitlab.com/cgambini/graph-builder[Graph Builder]
+
+BSD 3-Clause License
+
+Copyright (c) 2020, Cyril GAMBINI
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this
+  list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+
+* Neither the name of the copyright holder nor the names of its
+  contributors may be used to endorse or promote products derived from
+  this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+=== Product used in the project
+
+The documented project has been developed with the following products.
+
+==== DQMH(R)
+
+Copyright (C) 2015-2020 by Delacor, LLC. All Rights Reserved.
+
+Find more details on https://delacor.com/products/dqmh/[Delacor] website
+

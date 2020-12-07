@@ -1,5 +1,9 @@
 ﻿<?xml version='1.0' encoding='UTF-8'?>
 <LVClass LVVersion="19008000">
+	<Property Name="NI.Lib.Description" Type="Str">Class to obtain access to Simulated MCU. 
+This MCU can obtain the simulated commands with an specific response
+</Property>
+	<Property Name="NI.Lib.HelpPath" Type="Str"></Property>
 	<Property Name="NI.Lib.Icon" Type="Bin">'1#!!!!!!!)!"1!&amp;!!!-!%!!!@````]!!!!"!!%!!!)Y!!!*Q(C=\&gt;5R4C."%)8B.QAE5I=%3)OP5"(Z:%\R&amp;3L;X/G%PE*&gt;Q6@Q&amp;?I+PI+P-0T&gt;&amp;":)8FO\7L1&lt;-%W&lt;]?PJ[I_:VC$VYV[[V8TN7&amp;U]@G?]&amp;7NNN:L0D=^P(`0]+@QUPY^8D80L8[\`0P]8YV@^@T:_Z&gt;$X]8X]WW/[OEG`@-]/;C]C?N+$\H247WJ/]C20]C20]C10]C!0]C!0]C"X=C&gt;X=C&gt;X=C=X=C-X=C-X=C0PD6TE)B=ZJ'4R:+'E;&amp;)AO2C+EI`%EXA34_,BKR*0YEE]C3@R=)E34_**0)EH]4".C3@R**\%EXAIV38:'TG?R%.Z":\!%XA#4_"B317?!"!M&amp;B1/CM"1-"C="*\!%XAY6?!*0)%H]!1?BB6Y!E`A#4S"BSH^LE48N%;/BT*S0)\(]4A?RU.J/2\(YXA=D_.B/4E?R_-AH!7&gt;YB$E4()O=,YY(M@$,TE?R_.Y()`D9;A`)?^XJGF;)]&gt;D?!S0Y4%]BI=3-DS'R`!9(M.$72E?QW.Y$)`B93E:(M.D?!S)M3D,SSBG4$1O-A,$QU`@,&gt;;@5H3*^3&lt;6ZF6N3N6G5WUCV?:10846QV1^*.8.6^V5V=V3X146([&gt;#KT#K2634WY5[]HGA\_E\_J;_I;`J)XV*8\3J@`H#Y`'IQ_'A`8[PX7[H\8;LT7;D^8KN=2SV8#[V7#R/LY%@N.-,Y?W^.((?__-Y4%]`B_HB::DO/(]?B^-9`9P_F`Y(\U&lt;&gt;['.&gt;\N%LE[_4T1!!!!!</Property>
 	<Property Name="NI.Lib.SourceVersion" Type="Int">419463168</Property>
 	<Property Name="NI.Lib.Version" Type="Str">1.0.0.5</Property>
